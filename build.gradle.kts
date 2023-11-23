@@ -16,20 +16,34 @@ java {
     sourceCompatibility = JavaVersion.VERSION_17
 }
 
-repositories {
-    mavenCentral()
+allprojects {
+    repositories {
+        mavenCentral()
+    }
 }
 
 extra["snippetsDir"] = file("build/generated-snippets")
 
 dependencies {
-//    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    // Spring Boot
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
+
+    // Kotlin
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+
+    // Modules
+    implementation(project(":domain"))
+    implementation(project(":infra"))
+
+    // Other
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("com.mysql:mysql-connector-j:8.2.0")
+    implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
+
+    // Test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
@@ -48,13 +62,4 @@ tasks.withType<Test> {
 
 tasks.bootBuildImage {
     builder.set("paketobuildpacks/builder-jammy-base:latest")
-}
-
-tasks.test {
-//    outputs.dir(snippetsDir)
-}
-
-tasks.asciidoctor {
-//    inputs.dir(snippetsDir)
-//    dependsOn(test)
 }
