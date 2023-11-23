@@ -1,6 +1,11 @@
 plugins {
-    kotlin("jvm") version "1.8.22"
+    kotlin("jvm")
 }
 
 dependencies {
+    implementation(project(":common"))
+}
+
+tasks.bootJar {
+    enabled = false
 }

@@ -4,9 +4,9 @@ plugins {
     id("org.springframework.boot") version "3.1.5"
     id("io.spring.dependency-management") version "1.1.3"
     id("org.asciidoctor.jvm.convert") version "3.3.2"
+    id("org.jlleitschuh.gradle.ktlint") version "11.6.1"
     kotlin("jvm") version "1.8.22"
     kotlin("plugin.spring") version "1.8.22"
-    kotlin("plugin.jpa") version "1.8.22"
 }
 
 group = "tech.takenoko"
@@ -22,25 +22,28 @@ allprojects {
     }
 }
 
-extra["snippetsDir"] = file("build/generated-snippets")
+subprojects {
+    apply(plugin = "org.springframework.boot")
+    apply(plugin = "io.spring.dependency-management")
+    apply(plugin = "org.jlleitschuh.gradle.ktlint")
+}
 
 dependencies {
     // Spring Boot
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
     // Kotlin
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
 
     // Modules
-    implementation(project(":domain"))
+    implementation(project(":application"))
     implementation(project(":infra"))
 
     // Other
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("com.mysql:mysql-connector-j:8.2.0")
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
 
     // Test
