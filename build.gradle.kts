@@ -7,6 +7,7 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint") version "11.6.1"
     kotlin("jvm") version "1.8.22"
     kotlin("plugin.spring") version "1.8.22"
+    kotlin("plugin.allopen") version "1.8.22"
 }
 
 group = "tech.takenoko"
@@ -20,12 +21,20 @@ allprojects {
     repositories {
         mavenCentral()
     }
+
 }
 
 subprojects {
     apply(plugin = "org.springframework.boot")
     apply(plugin = "io.spring.dependency-management")
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
+    apply(plugin = "org.jetbrains.kotlin.plugin.allopen")
+    allOpen {
+        annotations(
+            "jakarta.transaction.Transactional",
+            "org.springframework.context.annotation.Configuration",
+        )
+    }
 }
 
 dependencies {
@@ -40,7 +49,10 @@ dependencies {
 
     // Modules
     implementation(project(":application"))
+    implementation(project(":common"))
+    implementation(project(":domain"))
     implementation(project(":infra"))
+    implementation(project(":presentation"))
 
     // Other
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")

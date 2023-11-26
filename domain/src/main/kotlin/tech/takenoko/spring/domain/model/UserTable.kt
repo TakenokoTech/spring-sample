@@ -1,4 +1,4 @@
-package tech.takenoko.spring.infra.database
+package tech.takenoko.spring.domain.model
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -10,7 +10,6 @@ import jakarta.persistence.Table
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
-import org.springframework.data.jpa.repository.JpaRepository
 import java.time.LocalDateTime
 
 @Entity
@@ -32,7 +31,5 @@ data class UserTable(
     @field:UpdateTimestamp
     @Column(name = "updated_at", nullable = false)
     lateinit var updatedAt: LocalDateTime
-
-    interface Repository : JpaRepository<UserTable, Long>
 }
 

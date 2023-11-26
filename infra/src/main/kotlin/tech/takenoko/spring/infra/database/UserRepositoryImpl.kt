@@ -1,13 +1,15 @@
 package tech.takenoko.spring.infra.database
 
-import org.springframework.stereotype.Repository
+import org.springframework.stereotype.Component
 import tech.takenoko.spring.domain.model.User
+import tech.takenoko.spring.domain.model.UserTable
 import tech.takenoko.spring.domain.repository.UserRepository
+import tech.takenoko.spring.domain.repository.UserTableRepository
 import tech.takenoko.spring.domain.value.UserName
 
-@Repository
-open class UserRepositoryImpl(
-    private val userTableRepository: UserTable.Repository,
+@Component
+class UserRepositoryImpl(
+    private val userTableRepository: UserTableRepository,
 ) : UserRepository {
     override fun selectAll(): List<User> {
         return userTableRepository.findAll().map { User(UserName(it.username)) }
